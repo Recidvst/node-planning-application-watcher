@@ -6,6 +6,9 @@ const pretty = require('express-prettify');
 const cors = require('cors')
 const gnuHeader = require('node-gnu-clacks');
 
+// config/env
+require('dotenv').config();
+
 // declare app
 const app = express();
 const router = express.Router({ mergeParams: true });
@@ -20,6 +23,7 @@ app.use(gnuHeader());
 // set the server listening
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
+  console.log(`Target URL = ${process.env.TARGETURL}`);
 });
 
 // error handling?
