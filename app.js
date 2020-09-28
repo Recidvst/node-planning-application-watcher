@@ -23,7 +23,6 @@ app.use(gnuHeader());
 // set the server listening
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
-  console.log(`Target URL = ${process.env.TARGETURL}`);
 });
 
 // error handling?
