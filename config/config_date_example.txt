@@ -1,0 +1,2 @@
+Date in ISO string to be compared against a scraped value. Overwritten each cron run
+2020-09-28T22:23:52.804Z

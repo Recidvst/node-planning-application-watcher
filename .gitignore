@@ -9,8 +9,8 @@
 .env.test.local
 .env.production.local
 config.json
-config.js
-config_date.js
+config.json
+config_date.txt
 
 npm-debug.log
 yarn-debug.log
