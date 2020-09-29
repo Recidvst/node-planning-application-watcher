@@ -2,8 +2,8 @@
 const express = require('express');
 // filesystem
 const fs = require('fs');
-const writeTxtFile = require('./writeFile.js');
-const createTxtFile = require('./createFile.js');
+const overWriteFile = require('./writeFile.js');
+const logToFile = require('./createFile.js');
 
 // scraping
 const puppeteer = require('puppeteer');
@@ -83,12 +83,12 @@ if (scrapeURL && scrapeURL !== '' && postcode && postcode !== '') {
       if (fileDate !== '' && fileDate !== false) {
         // if dates don't match, do nothing except update the file date to today (overwrite)
         if (!isSameDay(new Date(fileDate), resultDate)) {
-          writeTxtFile('./config/config_date.txt', new Date().toISOString());
+          overWriteFile('./config/config_date.txt', new Date().toISOString());
         }
         // if dates DO match then update the file date but also trigger notifications to the user and add a success file
         else {
-          writeTxtFile('./config/config_date.txt', new Date().toISOString());
-          createTxtFile('./logs/successful-match.txt', new Date().toISOString());
+          overWriteFile('./config/config_date.txt', new Date().toISOString());
+          logToFile('./logs/successful-match.txt', new Date().toISOString());
           // TODO: add notifications functionality
         }
       }

@@ -2,7 +2,7 @@
 const fs = require('fs');
 
 // write config txt file with date
-const writeTxtFile = (filename, content) => {
+const overWriteFile = (filename, content) => {
   fs.writeFile(filename, content, function(err) {
     if(err) {
       // if err, send to logfile
@@ -11,4 +11,4 @@ const writeTxtFile = (filename, content) => {
   });
 }
 
-module.exports = writeTxtFile;
+module.exports = overWriteFile;

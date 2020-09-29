@@ -5,9 +5,13 @@ const morgan = require('morgan');
 const pretty = require('express-prettify');
 const cors = require('cors')
 const gnuHeader = require('node-gnu-clacks');
+const logToFile = require('./createFile.js');
 
 // config/env
 require('dotenv').config();
+
+// import crons
+const crons = require('./crons');
 
 // declare app
 const app = express();
@@ -24,6 +28,18 @@ app.use(gnuHeader());
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+// call crons
+if (crons && typeof crons === 'object') {
+  crons.weeklyCron();
+}
+else {
+  server.close(() => {
+    console.log('Crons not found. Process terminated.');
+    logToFile('logs/error-log.txt', `Crons not found. Process terminated at: ${new Date().toISOString()}\r\n`); // update error log file
+    process.exit(9);
+  })
+}
 
 // error handling?
 process.on('uncaughtException', function (err) {
