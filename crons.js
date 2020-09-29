@@ -20,9 +20,9 @@ const validator = (schedule) => {
 }
 
 // schedule tasks to be run on the server
-// weekly job running on Sundays at 9am
-const weeklyCron = () => {
-  const sched = "0 9 * * 6";
+// daily job running at 4pm
+const dailyCron = () => {
+  const sched = "0 16 * * *";
   validator(sched)
   .then( () => { // if cron valid
     cron.schedule(sched, function() {
@@ -36,14 +36,30 @@ const weeklyCron = () => {
     process.exit(9);
   })
 }
-// daily job running at 4pm
-const dailyCron = () => {
-  const sched = "30 16 * * *"; // TODO: set this to the time I want
+// weekly job running on Saturdays at 4pm
+const weeklyCron = () => {
+  const sched = "0 16 * * 6";
   validator(sched)
   .then( () => { // if cron valid
     cron.schedule(sched, function() {
       triggerFn();
-      logToFile('logs/cron-log.txt', `Cron 'dailyCron' ran at: ${new Date().toISOString()}\r\n`); // update log file
+      logToFile('logs/cron-log.txt', `Cron 'weeklyCron' ran at: ${new Date().toISOString()}\r\n`); // update log file
+    });
+  })
+  .catch( (err) => {
+    logToFile('logs/error-log.txt', `Process terminated. Reason: ${err} at: ${new Date().toISOString()}\r\n`); // update error log file
+    // kill process
+    process.exit(9);
+  })
+}
+// monthly job running at 9am to test that the cron is still running
+const monthlyCron = () => { 
+  const sched = "0 16 1 * *";
+  validator(sched)
+  .then( () => { // if cron valid
+    cron.schedule(sched, function() {
+      triggerFn('test');
+      logToFile('logs/cron-log.txt', `Cron 'monthlyCron' ran at: ${new Date().toISOString()}\r\n`); // update log file
     });
   })
   .catch( (err) => {
@@ -71,5 +87,6 @@ const testErrorCron = () => { // schedule validation tester
 module.exports = {
   weeklyCron,
   dailyCron,
+  monthlyCron,
   testErrorCron
 };

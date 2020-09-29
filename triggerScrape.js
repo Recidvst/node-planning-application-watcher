@@ -6,16 +6,24 @@ const scraperFn = require('./scraper.js');
 const sendNotifications = require('./triggerNotifications');
 
 // fired on cron run
-const triggerFn = async () => {
+const triggerFn = async (isTest) => {
   try {
 
-    const matchedDate = await scraperFn();
-    // if match found then new planning application has been made so trigger notifications
-    if (matchedDate) {
-      sendNotifications(matchedDate);
-      return true;
+    // if a test to make sure the cron is running
+    if (isTest && isTest === 'test' ) {
+      sendNotifications('test');
+      return false;
     }
-    return false;
+    // else do logic
+    else {
+      const matchedDate = await scraperFn();
+      // if match found then new planning application has been made so trigger notifications
+      if (matchedDate) {
+        sendNotifications(matchedDate);
+        return true;
+      }
+      return false;
+    }
 
   }
   catch(err) {

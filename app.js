@@ -31,6 +31,7 @@ app.listen(port, () => {
 // call crons
 if (crons && typeof crons === 'object') {
   crons.dailyCron();
+  crons.monthlyCron();
 }
 else {
   server.close(() => {
