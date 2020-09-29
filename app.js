@@ -15,7 +15,6 @@ const crons = require('./crons');
 
 // declare app
 const app = express();
-const router = express.Router({ mergeParams: true });
 const port = (process.env.NODE_ENV === 'production') ? process.env.PORT : 3001;
 
 // middleware
@@ -31,11 +30,10 @@ app.listen(port, () => {
 
 // call crons
 if (crons && typeof crons === 'object') {
-  crons.weeklyCron();
+  crons.dailyCron();
 }
 else {
   server.close(() => {
-    console.log('Crons not found. Process terminated.');
     logToFile('logs/error-log.txt', `Crons not found. Process terminated at: ${new Date().toISOString()}\r\n`); // update error log file
     process.exit(9);
   })

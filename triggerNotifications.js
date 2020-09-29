@@ -1,36 +1,30 @@
-// imports
-const fs = require("fs");
-// require log function
-const logToFile = require('./createFile.js');
 // env vars
 const NOTIFYBYTEXT = (process.env.NOTIFYBYTEXT === 'true') || false;
 const NOTIFYBYEMAIL = (process.env.NOTIFYBYEMAIL === 'true') || false;
 // actions
 const twilio = require('./twilio');
 const mailer = require('./mailer');
+// require log function
+const logToFile = require('./createFile.js');
 
-// fired on cron run
-const triggerFn = async (date) => {
+// trigger fn
+const sendNotifications = async (date) => {
   try {
-    // options to be passed to send methods
-    let sendProto = {
-      name: 'Planning Application',
-      datefound: date || false,
-    }
 
     // send mail
     if (NOTIFYBYEMAIL && mailer && typeof mailer === 'object') {
-      mailer.sendMail(sendOpts);
+      mailer.sendMail();
     }
+
     // twilio messaging integration
     if (NOTIFYBYTEXT && twilio && typeof twilio === 'object') {
-      twilio.twilioSendSMS(sendOpts);
+      twilio.twilioSendSMS();
     }
 
   }
   catch(err) {
-    logToFile('logs/error-log.txt', `Crons trigger fn failsd. Reason: ${err} at: ${new Date().toISOString()}\r\n`); // update error log file
+    logToFile('logs/error-log.txt', `Notifications trigger fn failed. Reason: ${err} at: ${new Date().toISOString()}\r\n`); // update error log file
   }
 }
 
-module.exports = triggerFn;
+module.exports = sendNotifications;

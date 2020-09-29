@@ -22,12 +22,16 @@
     "date-fns": "^2.16.1",
     "express": "^4.17.1",
     "express-prettify": "^0.1.1",
+    "googleapis": "^60.0.1",
     "morgan": "^1.10.0",
+    "node-cron": "^2.0.3",
     "node-gnu-clacks": "^1.0.2",
+    "nodemailer": "^6.4.11",
     "nodemon": "^2.0.4",
     "pm2": "^4.4.1",
     "puppeteer": "^5.3.1",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "twilio": "^3.49.4"
   }
 }

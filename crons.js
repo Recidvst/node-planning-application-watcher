@@ -1,6 +1,6 @@
 // cron tasks
 const cron = require("node-cron");
-const triggerFn = require('./triggerNotifications');
+const triggerFn = require('./triggerScrape');
 
 // require log function
 const logToFile = require('./createFile.js');
@@ -36,6 +36,22 @@ const weeklyCron = () => {
     process.exit(9);
   })
 }
+// daily job running at 4pm
+const dailyCron = () => {
+  const sched = "30 16 * * *"; // TODO: set this to the time I want
+  validator(sched)
+  .then( () => { // if cron valid
+    cron.schedule(sched, function() {
+      triggerFn();
+      logToFile('logs/cron-log.txt', `Cron 'dailyCron' ran at: ${new Date().toISOString()}\r\n`); // update log file
+    });
+  })
+  .catch( (err) => {
+    logToFile('logs/error-log.txt', `Process terminated. Reason: ${err} at: ${new Date().toISOString()}\r\n`); // update error log file
+    // kill process
+    process.exit(9);
+  })
+}
 
 const testErrorCron = () => { // schedule validation tester
   const sched = "*/10 * asds* '* *//1 *";
@@ -54,5 +70,6 @@ const testErrorCron = () => { // schedule validation tester
 
 module.exports = {
   weeklyCron,
+  dailyCron,
   testErrorCron
 };
