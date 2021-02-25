@@ -20,7 +20,7 @@ const validator = (schedule) => {
 }
 
 // schedule tasks to be run on the server
-// daily job running at 4pm
+// daily job running at 6pm
 const dailyCron = () => {
   const sched = "* 18 * * *";
   validator(sched)
@@ -36,7 +36,7 @@ const dailyCron = () => {
     process.exit(9);
   })
 }
-// weekly job running on Saturdays at 4pm
+// weekly job running on Saturdays at 6pm
 const weeklyCron = () => {
   const sched = "0 18 * * 6";
   validator(sched)
@@ -54,7 +54,7 @@ const weeklyCron = () => {
 }
 // monthly job running at 9am to test that the cron is still running
 const monthlyCron = () => { 
-  const sched = "0 18 1 * *";
+  const sched = "0 9 1 * *";
   validator(sched)
   .then( () => { // if cron valid
     cron.schedule(sched, function() {
