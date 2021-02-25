@@ -8,8 +8,7 @@ const MAILPWD = process.env.GMAILPASSWORD || false;
 let nodemailer = require("nodemailer");
 
 const sendMail = function(subject, message) {
-
-  if (eventWording) {
+  if (subject && message) {
     // Create a SMTP transporter object
     let mailer = nodemailer.createTransport({
       host: 'smtp.gmail.com',

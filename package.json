@@ -1,6 +1,6 @@
 {
   "name": "planning_application_watcher",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Mini Node.js app to watch for new planning applications in my local area by scraping the relevant local council page at regular intervals and notifying me by SMS/Email.",
   "main": "app.js",
   "scripts": {
