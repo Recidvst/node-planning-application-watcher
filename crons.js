@@ -22,11 +22,11 @@ const validator = (schedule) => {
 // schedule tasks to be run on the server
 // daily job running at 4pm
 const dailyCron = () => {
-  const sched = "55 16 * * *";
+  const sched = "* 18 * * *";
   validator(sched)
   .then( () => { // if cron valid
     cron.schedule(sched, function() {
-      triggerFn('test');
+      triggerFn();
       logToFile('logs/cron-log.txt', `Cron 'dailyCron' ran at: ${new Date().toISOString()}\r\n`); // update log file
     });
   })
@@ -38,7 +38,7 @@ const dailyCron = () => {
 }
 // weekly job running on Saturdays at 4pm
 const weeklyCron = () => {
-  const sched = "0 16 * * 6";
+  const sched = "0 18 * * 6";
   validator(sched)
   .then( () => { // if cron valid
     cron.schedule(sched, function() {
@@ -54,7 +54,7 @@ const weeklyCron = () => {
 }
 // monthly job running at 9am to test that the cron is still running
 const monthlyCron = () => { 
-  const sched = "0 16 1 * *";
+  const sched = "0 18 1 * *";
   validator(sched)
   .then( () => { // if cron valid
     cron.schedule(sched, function() {
