@@ -2,6 +2,8 @@
 const fs = require('fs');
 const overWriteFile = require('./writeFile.js');
 const logToFile = require('./createFile.js');
+// require notifications trigger
+const sendNotifications = require('./triggerNotifications');
 // scraping
 const puppeteer = require('puppeteer');
 // util
@@ -30,11 +32,11 @@ const getDateFromResult = function(scrapeResult) {
   return returnValue;
 }
 
-
 const scraperFn = async () => {
   if (scrapeURL && scrapeURL !== '' && postcode && postcode !== '') {
+    try {
 
-      const browser = await puppeteer.launch({ headless: useHeadless });
+      const browser = await puppeteer.launch({ headless: useHeadless, args: ['--no-sandbox'] });
       const page = await browser.newPage();
       // go to page
       await page.goto(scrapeURL, {waitUntil: 'networkidle2'});
@@ -86,6 +88,12 @@ const scraperFn = async () => {
           }
         }
       }
+
+    }
+    catch(err) {
+      logToFile('logs/error-log.txt', `Scraper (puppeteer) fn failed to process planning page. Reason: ${err} at: ${new Date().toISOString()}\r\n`); // update error log file
+      sendNotifications('error', err);
+    }
   }
   else {
     return false;

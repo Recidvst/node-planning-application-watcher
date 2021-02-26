@@ -22,7 +22,7 @@ const validator = (schedule) => {
 // schedule tasks to be run on the server
 // daily job running at 6pm
 const dailyCron = () => {
-  const sched = "* 18 * * *";
+  const sched = "0 18 * * *";
   validator(sched)
   .then( () => { // if cron valid
     cron.schedule(sched, function() {
@@ -52,9 +52,9 @@ const weeklyCron = () => {
     process.exit(9);
   })
 }
-// monthly job running at 9am to test that the cron is still running
+// monthly job running at 6pm to test that the cron is still running
 const monthlyCron = () => { 
-  const sched = "0 9 1 * *";
+  const sched = "0 18 1 * *";
   validator(sched)
   .then( () => { // if cron valid
     cron.schedule(sched, function() {
@@ -68,6 +68,8 @@ const monthlyCron = () => {
     process.exit(9);
   })
 }
+
+// TODO: add new cron job to run 6 monthly (?) to clean out the oldest log files
 
 const testErrorCron = () => { // schedule validation tester
   const sched = "*/10 * asds* '* *//1 *";

@@ -28,6 +28,7 @@ const triggerFn = async (isTest) => {
   }
   catch(err) {
     logToFile('logs/error-log.txt', `Scraper trigger fn failed. Reason: ${err} at: ${new Date().toISOString()}\r\n`); // update error log file
+    sendNotifications('error', err);
   }
 }
 
